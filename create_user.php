@@ -1,23 +1,28 @@
 <?php
 require_once 'UserManager.php';
+require_once 'Database.php';
+
+$userManager = new UserManager();
+
+$errorMessages = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $firstName = $_POST['first_name'];
-    $lastName = $_POST['last_name'];
-    $email = $_POST['email'];
-    $mobileNumber = $_POST['mobile_number'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $zip = $_POST['zip'];
-
     try {
-        $userManager = new UserManager();
-        $userManager->createUser($firstName, $lastName, $email, $mobileNumber, $address, $city, $state, $zip);
+        $user = new User();
+        $user->setFirstName($_POST['first_name']);
+        $user->setLastName($_POST['last_name']);
+        $user->setEmail($_POST['email']);
+        $user->setMobileNumber($_POST['mobile_number']);
+        $user->setAddress($_POST['address']);
+        $user->setCity($_POST['city']);
+        $user->setState($_POST['state']);
+        $user->setZip($_POST['zip']);
+
+        $userManager->create($user);
         header("Location: manage_users.php");
         exit;
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        $errorMessages = $e->getMessage();
     }
 }
 ?>
@@ -35,31 +40,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Create New User</h1>
 </header>
 <div class="container">
+    <?php if (!empty($errorMessages)): ?>
+        <div class="error-messages" style="color: red; margin-bottom: 20px;">
+            <?= $errorMessages ?>
+        </div>
+    <?php endif; ?>
+
     <form action="create_user.php" method="POST">
         <label for="first_name">First Name</label>
-        <input type="text" id="first_name" name="first_name" required>
-
+        <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($_POST['first_name'] ?? '') ?>" required>
         <label for="last_name">Last Name</label>
-        <input type="text" id="last_name" name="last_name" required>
-
+        <input type="text" id="last_name" name="last_name" value="<?= htmlspecialchars($_POST['last_name'] ?? '') ?>" required>
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" required>
-
+        <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
         <label for="mobile_number">Mobile Number</label>
-        <input type="text" id="mobile_number" name="mobile_number" required>
-
+        <input type="text" id="mobile_number" name="mobile_number" value="<?= htmlspecialchars($_POST['mobile_number'] ?? '') ?>" required>
         <label for="address">Address</label>
-        <input type="text" id="address" name="address" required>
-
+        <input type="text" id="address" name="address" value="<?= htmlspecialchars($_POST['address'] ?? '') ?>" required>
         <label for="city">City</label>
-        <input type="text" id="city" name="city" required>
-
+        <input type="text" id="city" name="city" value="<?= htmlspecialchars($_POST['city'] ?? '') ?>" required>
         <label for="state">State</label>
-        <input type="text" id="state" name="state" required>
-
+        <input type="text" id="state" name="state" value="<?= htmlspecialchars($_POST['state'] ?? '') ?>" required>
         <label for="zip">Zip Code</label>
-        <input type="text" id="zip" name="zip" required>
-
+        <input type="text" id="zip" name="zip" value="<?= htmlspecialchars($_POST['zip'] ?? '') ?>" required>
         <button class="btn" type="submit">Create User</button>
     </form>
     <br>

@@ -1,12 +1,12 @@
 <?php
 require_once 'UserManager.php';
 
+$userManager = new UserManager();
+
 try {
-    $userManager = new UserManager();
-    $users = $userManager->getAllUsers();
+    $users = $userManager->findAll();
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-    die();
+    $errorMessage = $e->getMessage();
 }
 ?>
 
@@ -23,49 +23,41 @@ try {
     <h1>Manage Users</h1>
 </header>
 <div class="container">
-    <a href="create_user.php" class="btn">Create New User</a>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Mobile Number</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php if (!empty($users)): ?>
+    <a class="btn" href="create_user.php">Create New User</a>
+    <?php if (isset($errorMessage)): ?>
+        <div class="error-messages" style="color: red; margin-bottom: 20px;">
+            <?= $errorMessage ?>
+        </div>
+    <?php else: ?>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Mobile Number</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
             <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?= htmlspecialchars($user['id']) ?></td>
-                    <td><?= htmlspecialchars($user['first_name']) ?></td>
-                    <td><?= htmlspecialchars($user['last_name']) ?></td>
-                    <td><?= htmlspecialchars($user['email']) ?></td>
-                    <td><?= htmlspecialchars($user['mobile_number']) ?></td>
-                    <td><?= htmlspecialchars($user['address']) ?></td>
-                    <td><?= htmlspecialchars($user['city']) ?></td>
-                    <td><?= htmlspecialchars($user['state']) ?></td>
-                    <td><?= htmlspecialchars($user['zip']) ?></td>
-                    <td class="actions">
-                        <a href="edit_user.php?id=<?= htmlspecialchars($user['id']) ?>">Edit</a>
-                        <a href="delete_user.php?id=<?= htmlspecialchars($user['id']) ?>"
+                    <td><?= htmlspecialchars($user->getId()) ?></td>
+                    <td><?= htmlspecialchars($user->getFirstName()) ?></td>
+                    <td><?= htmlspecialchars($user->getLastName()) ?></td>
+                    <td><?= htmlspecialchars($user->getEmail()) ?></td>
+                    <td><?= htmlspecialchars($user->getMobileNumber()) ?></td>
+                    <td>
+                        <a href="edit_user.php?id=<?= htmlspecialchars($user->getId()) ?>">Edit</a>
+                        <a href="delete_user.php?id=<?= htmlspecialchars($user->getId()) ?>"
                            onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="10">No users found.</td>
-            </tr>
-        <?php endif; ?>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    <?php endif; ?>
 </div>
 </body>
 </html>
