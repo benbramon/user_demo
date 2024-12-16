@@ -50,7 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 </head>
 <body>
 <header>
-    <h1>Edit User</h1>
+    <div class="page-header">
+        <img src="profile.png" alt="Profile Icon">
+        <h1>Edit User</h1>
+    </div>
 </header>
 <div class="container">
     <?php if (!empty($errorMessages)): ?>

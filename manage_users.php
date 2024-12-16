@@ -20,7 +20,11 @@ try {
 </head>
 <body>
 <header>
-    <h1>Manage Users</h1>
+    <div class="page-header">
+        <img src="profile.png" alt="Profile Icon">
+        <h1>Manage Users</h1>
+        <p>View and manage user accounts.</p>
+    </div>
 </header>
 <div class="container">
     <a class="btn" href="create_user.php">Create New User</a>
@@ -51,7 +55,7 @@ try {
                     <td><?= htmlspecialchars($user->getEmail()) ?></td>
                     <td><?= htmlspecialchars($user->getMobileNumber()) ?></td>
                     <td><?= htmlspecialchars($user->getCreatedDate()) ?></td>
-                    <td><?= htmlspecialchars($user->getUpdatedDate()) ?></td>
+                    <td><?= htmlspecialchars(empty($user->getUpdatedDate()) ? "N/A" : $user->getUpdatedDate()) ?></td>
                     <td>
                         <a href="edit_user.php?id=<?= htmlspecialchars($user->getId()) ?>">Edit</a>
                         <a href="delete_user.php?id=<?= htmlspecialchars($user->getId()) ?>"

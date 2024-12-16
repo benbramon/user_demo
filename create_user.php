@@ -37,7 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <header>
-    <h1>Create New User</h1>
+    <div class="page-header">
+        <img src="profile.png" alt="Profile Icon">
+        <h1>Create New User</h1>
+    </div>
 </header>
 <div class="container">
     <?php if (!empty($errorMessages)): ?>
