@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Database.php'; // Include the Database class
+require_once 'Database.php';
 include 'User.php';
 
 class UserManager {
