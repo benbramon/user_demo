@@ -7,7 +7,6 @@ class UserManager {
     private $pdo;
 
     public function __construct() {
-        // Initialize the PDO instance using the Database class
         $db = Database::getInstance();
         $this->pdo = $db->getConnection();
     }
@@ -42,14 +41,19 @@ class UserManager {
         }
 
         $stmt = $this->pdo->prepare('
-            INSERT INTO users (first_name, last_name, email, mobile_number, address, city, state, zip)
-            VALUES (:first_name, :last_name, :email, :mobile_number, :address, :city, :state, :zip)
+            INSERT INTO users (first_name, last_name, email, mobile_number, address, city, state, zip, created)
+            VALUES (:first_name, :last_name, :email, :mobile_number, :address, :city, :state, :zip, NOW())
         ');
         $stmt->execute($this->mapToParams($user));
     }
 
     // Update an existing user
     public function update(User $user) {
+        $user = $this->findById($user->getId());
+        if (empty($user)) {
+            throw new Exception("User not found");
+        }
+
         $errors = $this->validate($user);
         if (!empty($errors)) {
             throw new Exception(implode("<br>", $errors));
@@ -64,7 +68,8 @@ class UserManager {
                 address = :address,
                 city = :city,
                 state = :state,
-                zip = :zip
+                zip = :zip,
+                last_updated = NOW()
             WHERE id = :id
         ');
         $params = $this->mapToParams($user);
@@ -120,6 +125,8 @@ class UserManager {
         $user->setCity($row['city']);
         $user->setState($row['state']);
         $user->setZip($row['zip']);
+        $user->setCreatedDate($row['created']);
+        $user->setUpdatedDate($row['last_updated']);
         return $user;
     }
 

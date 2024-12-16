@@ -37,6 +37,8 @@ try {
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Mobile Number</th>
+                <th>Date Added</th>
+                <th>Last Modified</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -48,6 +50,8 @@ try {
                     <td><?= htmlspecialchars($user->getLastName()) ?></td>
                     <td><?= htmlspecialchars($user->getEmail()) ?></td>
                     <td><?= htmlspecialchars($user->getMobileNumber()) ?></td>
+                    <td><?= htmlspecialchars($user->getCreatedDate()) ?></td>
+                    <td><?= htmlspecialchars($user->getUpdatedDate()) ?></td>
                     <td>
                         <a href="edit_user.php?id=<?= htmlspecialchars($user->getId()) ?>">Edit</a>
                         <a href="delete_user.php?id=<?= htmlspecialchars($user->getId()) ?>"

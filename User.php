@@ -10,6 +10,8 @@ class User {
     private $city;
     private $state;
     private $zip;
+    private $createdDate;
+    private $updatedDate;
 
     // Getters and Setters
     public function getId() {
@@ -82,5 +84,21 @@ class User {
 
     public function setZip($zip) {
         $this->zip = $zip;
+    }
+
+    public function getCreatedDate() {
+        return $this->createdDate;
+    }
+
+    public function setCreatedDate($createdDate) {
+        $this->createdDate = $createdDate;
+    }
+
+    public function getUpdatedDate() {
+        return $this->updatedDate;
+    }
+
+    public function setUpdatedDate($updatedDate) {
+        $this->updatedDate = $updatedDate;
     }
 }
